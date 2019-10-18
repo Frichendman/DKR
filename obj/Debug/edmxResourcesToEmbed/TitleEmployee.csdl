@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TitleEmployeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="TitleEmployeeEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employee" EntityType="TitleEmployeeModel.Employee" />
+    <EntitySet Name="Title" EntityType="TitleEmployeeModel.Title" />
+    <AssociationSet Name="FK_Employee_Title" Association="TitleEmployeeModel.FK_Employee_Title">
+      <End Role="Title" EntitySet="Title" />
+      <End Role="Employee" EntitySet="Employee" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Patronymic" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Telephone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="TitleID" Type="Int32" />
+    <NavigationProperty Name="Title" Relationship="TitleEmployeeModel.FK_Employee_Title" FromRole="Employee" ToRole="Title" />
+    <Property Name="BirthDate" Type="DateTime" Precision="0" />
+  </EntityType>
+  <EntityType Name="Title">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Employee" Relationship="TitleEmployeeModel.FK_Employee_Title" FromRole="Title" ToRole="Employee" />
+    <Property Name="Title1" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <Association Name="FK_Employee_Title">
+    <End Type="TitleEmployeeModel.Title" Role="Title" Multiplicity="0..1" />
+    <End Type="TitleEmployeeModel.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Title">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="TitleID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
